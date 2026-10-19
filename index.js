@@ -126,8 +126,27 @@ const HTML_CONTENT = `
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* 通用确认弹窗美化 */
         #general-dialog { z-index: 2500; }
-        .btn-third { background-color: var(--info); color: white; }
+        #general-dialog .dialog-box { width: 400px; max-width: 92%; padding: 32px 28px 24px; border-radius: 18px; text-align: center; border: 1px solid var(--border); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28); }
+        #general-dialog .dialog-icon { width: 60px; height: 60px; margin: 0 auto 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: rgba(231, 76, 60, 0.12); }
+        #general-dialog .dialog-icon svg { width: 30px; height: 30px; fill: none; stroke: var(--danger); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        #general-dialog .dialog-icon-info { background-color: rgba(93, 173, 226, 0.14); }
+        #general-dialog .dialog-icon-info svg { stroke: var(--info); }
+        #general-dialog .dialog-icon-question { background-color: rgba(67, 184, 131, 0.14); }
+        #general-dialog .dialog-icon-question svg { stroke: var(--primary); }
+        #general-dialog .dialog-title { margin: 0 0 10px; font-size: 19px; font-weight: 700; }
+        #general-dialog #general-dialog-content { margin: 0 0 24px; font-size: 14px; color: var(--text-color); opacity: 0.8; line-height: 1.65; text-align: center; }
+        #general-dialog .dialog-buttons { display: flex; justify-content: center; gap: 12px; margin-top: 0; }
+        #general-dialog .btn-base { flex: 1; min-width: 0; padding: 11px 0; border-radius: 10px; font-size: 14px; font-weight: 600; border: 1.5px solid transparent; transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+        #general-dialog .btn-base:hover { transform: translateY(-2px); }
+        #general-dialog .btn-base:active { transform: translateY(0); }
+        #general-dialog .btn-confirm { background-color: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(67, 184, 131, 0.3); }
+        #general-dialog .btn-confirm:hover { background-color: var(--primary-hover); box-shadow: 0 8px 20px rgba(67, 184, 131, 0.4); }
+        #general-dialog .btn-cancel { background-color: var(--btn-gray); color: var(--btn-gray-text); }
+        #general-dialog .btn-cancel:hover { background-color: var(--border); }
+        #general-dialog .btn-third { background-color: transparent; color: var(--info); border-color: var(--info); }
+        #general-dialog .btn-third:hover { background-color: rgba(93, 173, 226, 0.12); }
         #loading-mask { z-index: 3000; }
 
         .icon-preview { width: 20px; height: 20px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-left: 6px; border: 1px solid var(--border); }
