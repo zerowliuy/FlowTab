@@ -8,6 +8,7 @@
       "binding": "CARD_ORDER",
     }
   ],
+  "keep_vars": true,
   "vars": {
   }
 }
