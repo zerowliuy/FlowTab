@@ -722,7 +722,7 @@ const HTML_CONTENT = `
     }
 
     function exitSettings() { state.isAdmin = false; state.isEditMode = false; updateUI(); renderSections(); updateCategoryButtons(); }
-    async function handleAdminBtnClick() { if (state.isAdmin) { if (!state.isDirty) { exitSettings(); return; } if (await customConfirm('有未保存的修改，确认离开将丢失这些修改。', '确认离开', '取消离开')) { exitSettings(); loadLinks(); } return; } if(!await validateToken()) return; showLoading('正在进入设置模式...'); try { 
+    async function handleAdminBtnClick() { if (state.isAdmin) { if (!state.isDirty) { exitSettings(); return; } const choice = await customConfirm3('有未保存的修改，确认离开将丢失这些修改。', '保存离开', '确认离开', '取消离开'); if (choice === 'ok') { if (state.isSaving) return; state.isSaving = true; updateSaveButton(); const ok = await saveData(); state.isSaving = false; updateSaveButton(); if (ok) exitSettings(); return; } if (choice === 'third') { exitSettings(); loadLinks(); } return; } if(!await validateToken()) return; showLoading('正在进入设置模式...'); try { 
         // 优化：使用常量 USER ID
         await api('/api/backupData', 'POST', {sourceUserId: CURRENT_USER_ID}); } catch(e){} hideLoading(); state.isAdmin = true; state.isEditMode = true; markClean(); updateUI(); renderSections(); updateCategoryButtons(); }
     
@@ -853,7 +853,7 @@ const HTML_CONTENT = `
     function markClean() { state.isDirty = false; updateSaveButton(); }
     function updateSaveButton() { const b = el('save-btn'); if(!b) return; b.disabled = !state.isDirty || state.isSaving; b.classList.toggle('dirty', state.isDirty); }
     // 优化：使用常量 USER ID
-    async function saveData() { showLoading('保存...'); const res = await api('/api/saveOrder', 'POST', {userId: CURRENT_USER_ID, links:state.links, categories:state.categories}); if(!res.error) { localStorage.setItem('flowtab_cache_' + CURRENT_USER_ID, JSON.stringify({links:state.links, categories:state.categories})); markClean(); } hideLoading(); renderSections(); updateSaveButton(); }
+    async function saveData() { showLoading('保存...'); const res = await api('/api/saveOrder', 'POST', {userId: CURRENT_USER_ID, links:state.links, categories:state.categories}); if(!res.error) { localStorage.setItem('flowtab_cache_' + CURRENT_USER_ID, JSON.stringify({links:state.links, categories:state.categories})); markClean(); } hideLoading(); renderSections(); updateSaveButton(); return !res.error; }
     async function handleSaveClick() { if(!state.isAdmin || state.isSaving) return; state.isSaving = true; updateSaveButton(); await saveData(); state.isSaving = false; updateSaveButton(); }
     document.addEventListener('keydown', e => { if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && state.isAdmin) { e.preventDefault(); handleSaveClick(); } });
     async function validateToken() { if(!state.token) return false; const res = await api('/api/validateToken'); return !!res.valid; }
